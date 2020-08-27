@@ -14,6 +14,7 @@ class User(Base):
     id = sa.Column(sa.INTEGER, primary_key=True)
     first_name = sa.Column(sa.TEXT)
     last_name = sa.Column(sa.TEXT)
+    gender = sa.Column(sa.TEXT)
     email = sa.Column(sa.TEXT)
     birthdate = sa.Column(sa.TEXT)
     height = sa.Column(sa.REAL)
@@ -27,6 +28,7 @@ def add(session, bcolors):
 
     first_name = str(input("Имя: ")).capitalize()
     last_name = str(input("Фамилия: ")).capitalize()
+    gender = str(input("Пол (Male/Female): ")).capitalize()
     email = str(input("Email: ")).lower()
     birthdate = str(input("Дата рожения (YYYY-MM-DD): "))  # YYYY-MM-DD
     height = str(input("Рост (м): ")).replace(",", ".")
@@ -34,6 +36,7 @@ def add(session, bcolors):
     user = User(
         first_name=first_name,
         last_name=last_name,
+        gender=gender,
         email=email,
         birthdate=birthdate,
         height=height

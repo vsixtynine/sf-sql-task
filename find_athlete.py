@@ -5,29 +5,12 @@ import users
 from datetime import datetime
 
 """
-Module for finding a closest athlete.
+Модуль для поиска атлетов по парамтрам пользователя
 """
 # Variables
 Base = declarative_base()
 
 # Class definitions
-
-"""
-athelete(
-    "id" integer primary key autoincrement,
-    "age" integer,
-    "birthdate" text,
-    "gender" text,
-    "height" real,
-    "name" text,
-    "weight" integer,
-    "gold_medals" integer,
-    "silver_medals" integer,
-    "bronze_medals" integer,
-    "total_medals" integer,
-    "sport" text,
-    "country" text);
-"""
 
 
 class Athlette(Base):
@@ -55,13 +38,12 @@ def search_id(id, session):
 
 
 def height_compare(id, session, bcolors):
-
+    """
+    Сравнение роста атлетов с пользовательским
+    """
     # берем из базы рост пользователя
     usr_query = session.query(users.User).filter(users.User.id == id).first()
     usr_height = usr_query.height
-
-    # print(bcolors.OKGREEN +
-    #       f"                 Рост: {usr_height}m" + bcolors.ENDC)
 
     # ищем атлетов по росту пользователя
     ath_query = session.query(Athlette).filter(
@@ -91,8 +73,6 @@ def bday_compare(id, session):
     usr_query = session.query(users.User).filter(users.User.id == id).first()
     user_bday_str = usr_query.birthdate
     user_bday_dt_obj = datetime.strptime(user_bday_str, dt_format)
-    # print(bcolors.OKGREEN +
-    #       f"        Дата рождения: {user_bday_str}\n" + bcolors.ENDC)
 
     ath_query_all_obj = session.query(Athlette).all()
 
@@ -109,13 +89,14 @@ def bday_compare(id, session):
     ath_query_bday_query = session.query(Athlette).filter(
         Athlette.birthdate == closest_bday_str)
 
+    # берем из базы данные и считаем
     ath_bday_obj = ath_query_bday_query.all()
     ath_bday_count = ath_query_bday_query.count()
 
+    # формируем возврат
     res = ""
     for ath in ath_bday_obj:
         res = f"{res}\n  {ath.name}, д.р.: {ath.birthdate}, {ath.sport}"
-    # res = f"{res}\n\n  Всего близких ровесников: {ath_bday_count}"
 
     return res
 

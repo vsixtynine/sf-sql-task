@@ -233,6 +233,9 @@ def input_request(mode):
 
 
 def id_ask():
+    """
+    Проверка корректности введенного ID
+    """
     while True:
         id_raw = input("Введите ID пользователя: ")
         try:
